@@ -11,6 +11,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+// This doesn't belong here...  Somewhere in the config directory, I suppose.
+require('./models/permission');
+
 var routes = require('./routes/index');
 
 
