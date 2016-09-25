@@ -6,9 +6,6 @@ var blockController = require('../block/block.controller');
 
 
 router.get('/', function (req, res) {
-    if (req.user && req.user.admin) {
-        return res.redirect('/adminhome');
-    }
     res.render('landing', { title : "Blockchain for Babies" });
 });
 
@@ -71,13 +68,7 @@ router.post('/createparent', function(req, res) {
     if(req.body.password !== req.body.password2) {
         return res.render('createparent', { error : "Passwords don't match" });
     }
-    var pair = blockController.createUser();
-    var user = new User({
-        username: req.body.username,
-        public: pair.public,
-        private: pair.private,
-        admin: false
-    });
+    var user = _createUserFromBody(body);
     User.register(user, req.body.password, function(err, user) {
         if (err) {
             return res.render('createparent', { error : err.message, user: req.username });
@@ -90,16 +81,29 @@ router.get('/createbaby', function(req, res, next) {
   res.render('createbaby', {user: req.user});
 });
 
+var _createUserFromBody = function(body) {
+  var pair = blockController.createUser();
+  var user = new User({
+      username: body.username,
+      password: body.password,
+      firstname: body.firstname,
+      lastname: body.lastname,
+      birthdate: body.birthdate,
+      address: body.address,
+      phonenumber: body.phone,
+      email: body.email,
+      public: pair.public,
+      private: pair.private,
+      admin: false
+  });
+  return user;
+}
+
 router.post('/createbaby', function(req, res) {
     console.log(req.body);
-    var pair = blockController.createUser();
-    var user = new User({
-        username: req.body.username,
-        public: pair.public,
-        private: pair.private,
-        admin: false
-    });
-    User.register(new User({ username : req.body.username }), "1", function(err, user) {
+    req.body.password = "1";
+    var user = _createUserFromBody(body);
+    User.register(user, req.body.password, function(err, user) {
         if (err) {
             return res.render('createbaby', { error : err.message });
         }
