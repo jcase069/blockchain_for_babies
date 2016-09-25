@@ -6,6 +6,9 @@ var blockController = require('../block/block.controller');
 
 
 router.get('/', function (req, res) {
+    if (req.user && req.user.admin) {
+        return res.redirect('/adminhome');
+    }
     res.render('landing', { title : "Blockchain for Babies" });
 });
 
