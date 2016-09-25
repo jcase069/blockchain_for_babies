@@ -4,6 +4,7 @@ var User = require('../models/user');
 var router = express.Router();
 var blockController = require('../block/block.controller');
 var permissionController = require('../controllers/PermissionController');
+var userController = require('../controllers/UserController');
 
 
 router.get('/', function (req, res) {
