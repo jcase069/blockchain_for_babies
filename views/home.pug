@@ -17,16 +17,16 @@ block content
                     input.waves-effect.waves-light.btn(type="submit" value="Grant")
 
         div.col.s12
-            h3.header.center.orange-text I Can See
+            h3.header.center.orange-text Who I Can See
             ul.center
                 each value in holders
                   li= value
                 else
-                  li No one
+                  li No one but me
         div.col.s12
-            h3.header.center.orange-text Can See Me
+            h3.header.center.orange-text Who Can See Me
             ul.center
                 each value in receivers
                   li= value
                 else
-                  li No one
+                  li Only Me
