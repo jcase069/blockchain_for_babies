@@ -18,19 +18,15 @@ block content
 
         div.col.s12
             h3.header.center.orange-text I Can See
-            i.material-icons.prefix account_box
-            ul
-                each value in i_can_see_whom
+            ul.center
+                each value in holders
                   li= value
                 else
                   li No one
-            label(for="username") Whom I can see
         div.col.s12
             h3.header.center.orange-text Can See Me
-            i.material-icons.prefix account_box
-            ul
-                each value in who_can_see_me
+            ul.center
+                each value in receivers
                   li= value
                 else
                   li No one
-            label(for="username") Who can see me
