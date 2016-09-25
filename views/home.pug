@@ -1,6 +1,8 @@
 extends layout
 
 block content
+    - var i_can_see_whom = ["mike.monkey", "jane.jackle"];
+    - var who_can_see_me = ["zoe.zebra", "tess.tiger"];
     div.row
         h1.header.center.orange-text Grant Access
         form.col.s12(method="post" action="/grantaccesstoparent")
@@ -11,5 +13,22 @@ block content
                     i.material-icons.prefix account_box
                     input(id="username" name="username" type="text")
                     label(for="username") Username
+                div.input-field.col.s12
+                    i.material-icons.prefix account_box
+                    ul
+                        each value in i_can_see_whom
+                          li= value
+                        else
+                          li No one
+                    label(for="username") Whom I can see
+                div.input-field.col.s12
+                    i.material-icons.prefix account_box
+                    ul
+                        each value in who_can_see_me
+                          li= value
+                        else
+                          li No one
+                    label(for="username") Who can see me
+
                 div.input-field.col.s12
                     input.waves-effect.waves-light.btn(type="submit" value="create")
