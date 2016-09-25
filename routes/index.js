@@ -60,7 +60,7 @@ router.get('/ping', function(req, res){
 });
 
 router.get('/createparent', function(req, res, next) {
-  res.render('createparent');
+  res.render('createparent', user: req.user);
 });
 
 router.post('/createparent', function(req, res) {
@@ -84,7 +84,7 @@ router.post('/createparent', function(req, res) {
 });
 
 router.get('/createbaby', function(req, res, next) {
-  res.render('createbaby');
+  res.render('createbaby', user: req.user);
 });
 
 router.post('/createbaby', function(req, res) {
@@ -107,11 +107,11 @@ router.post('/createbaby', function(req, res) {
 
 
 router.get('/configure', function(req, res, next) {
-  res.render('configure');
+  res.render('configure', user: req.user);
 });
 
 router.post('/', function(req, res, next) {
-  res.render('configure');
+  res.render('configure', user: req.user);
 });
 
 module.exports = router;
