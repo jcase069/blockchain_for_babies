@@ -6,6 +6,9 @@ var blockController = require('../block/block.controller');
 
 
 router.get('/', function (req, res) {
+    if (req.user && req.user.admin) {
+        return res.redirect('/adminhome');
+    }
     res.render('landing', { title : "Blockchain for Babies" });
 });
 
@@ -60,7 +63,7 @@ router.get('/ping', function(req, res){
 });
 
 router.get('/createparent', function(req, res, next) {
-  res.render('createparent');
+  res.render('createparent', {user: req.user});
 });
 
 router.post('/createparent', function(req, res) {
@@ -77,14 +80,14 @@ router.post('/createparent', function(req, res) {
     });
     User.register(user, req.body.password, function(err, user) {
         if (err) {
-            return res.render('createparent', { error : err.message });
+            return res.render('createparent', { error : err.message, user: req.username });
         }
         res.redirect('/adminhome');
     });
 });
 
 router.get('/createbaby', function(req, res, next) {
-  res.render('createbaby');
+  res.render('createbaby', {user: req.user});
 });
 
 router.post('/createbaby', function(req, res) {
@@ -107,11 +110,11 @@ router.post('/createbaby', function(req, res) {
 
 
 router.get('/configure', function(req, res, next) {
-  res.render('configure');
+  res.render('configure', {user: req.user});
 });
 
 router.post('/', function(req, res, next) {
-  res.render('configure');
+  res.render('configure', {user: req.user});
 });
 
 module.exports = router;
