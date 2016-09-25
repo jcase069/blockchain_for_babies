@@ -11,6 +11,7 @@ var User = new Schema({
     birthdate: String,
     address: String,
     phonenumber: String,
+    email: String,
     public: String,
     private: String
 });

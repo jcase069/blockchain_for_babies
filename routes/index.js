@@ -68,7 +68,7 @@ router.post('/createparent', function(req, res) {
     if(req.body.password !== req.body.password2) {
         return res.render('createparent', { error : "Passwords don't match" });
     }
-    var user = _createUserFromBody(body);
+    var user = _createUserFromBody(req.body);
     User.register(user, req.body.password, function(err, user) {
         if (err) {
             return res.render('createparent', { error : err.message, user: req.username });
@@ -96,13 +96,14 @@ var _createUserFromBody = function(body) {
       private: pair.private,
       admin: false
   });
+  console.log("this is the body: " + JSON.stringify(body));
   return user;
 }
 
 router.post('/createbaby', function(req, res) {
     console.log(req.body);
     req.body.password = "1";
-    var user = _createUserFromBody(body);
+    var user = _createUserFromBody(req.body);
     User.register(user, req.body.password, function(err, user) {
         if (err) {
             return res.render('createbaby', { error : err.message });
