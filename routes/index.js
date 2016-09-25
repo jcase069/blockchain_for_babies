@@ -16,7 +16,12 @@ router.get('/home', function (req, res) {
      res.redirect('/adminhome');
      return;
    }
-   res.render('home', { title : "Blockchain for Babies", user: req.user });
+   res.render('home', {
+     title : "Blockchain for Babies",
+     user: req.user,
+     holders: ['Steve Holder'],
+     receivers: ['Betty Receiver']
+   });
 });
 
 router.get('/adminhome', function (req, res) {

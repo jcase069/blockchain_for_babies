@@ -14,21 +14,23 @@ block content
                     input(id="username" name="username" type="text")
                     label(for="username") Username
                 div.input-field.col.s12
-                    i.material-icons.prefix account_box
-                    ul
-                        each value in i_can_see_whom
-                          li= value
-                        else
-                          li No one
-                    label(for="username") Whom I can see
-                div.input-field.col.s12
-                    i.material-icons.prefix account_box
-                    ul
-                        each value in who_can_see_me
-                          li= value
-                        else
-                          li No one
-                    label(for="username") Who can see me
-
-                div.input-field.col.s12
                     input.waves-effect.waves-light.btn(type="submit" value="create")
+
+        div.col.s12
+            h3.header.center.orange-text I Can See
+            i.material-icons.prefix account_box
+            ul
+                each value in i_can_see_whom
+                  li= value
+                else
+                  li No one
+            label(for="username") Whom I can see
+        div.col.s12
+            h3.header.center.orange-text Can See Me
+            i.material-icons.prefix account_box
+            ul
+                each value in who_can_see_me
+                  li= value
+                else
+                  li No one
+            label(for="username") Who can see me
