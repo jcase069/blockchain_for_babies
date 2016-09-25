@@ -16,11 +16,21 @@ router.get('/home', function (req, res) {
      res.redirect('/adminhome');
      return;
    }
-   res.render('home', {
-     title : "Blockchain for Babies",
-     user: req.user,
-     holders: ['Steve Holder'],
-     receivers: ['Betty Receiver']
+   permissionController.listWhoCanViewMyRecords(req.user, function(err, receiverArray) {
+     if (err) {
+       return res.render('home', { error : err.message });
+     }
+     permissionController.listWhoseRecordsICanView(req.user, function(err, holderArray) {
+       if (err) {
+         return res.render('home', { error : err.message });
+       }
+       res.render('home', {
+         title : "Blockchain for Babies",
+         user: req.user,
+         holders: holderArray,
+         receivers: receiverArray
+       });
+     });
    });
 });
 
@@ -118,7 +128,7 @@ router.post('/createbaby', function(req, res) {
 
 router.post('/grantaccesstoparent', function(req, res) {
   // find the user with viewer_username
-  userController.findUserByUsername(body.username, function(err, receiver_user) {
+  userController.findUserByUsername(req.body.username, function(err, receiver_user) {
     if (err) {
       return res.render('/home', {error : err.message});
     } else {
