@@ -1,5 +1,11 @@
 var model = require('./block.model.js'),
-  keypair = require('keypair');
+  keypair = require('keypair'),
+  exec = require('child_process').exec;
+var cmd = 'prince -v builds/pdf/book.html -o builds/pdf/book.pdf';
+
+exec(cmd, function(error, stdout, stderr) {
+  // command output is in stdout
+});
 
 exports.createUser = function() {
   var pair = keypair();
@@ -7,18 +13,19 @@ exports.createUser = function() {
     // adding to the database.
 };
 
-exports.createBaby = function(username, contactInfo) {
-  // Creates a public and private key
-  // Returns the created Baby,
-  // but the Baby does not have a username or password
-  // contactInfo is really just an address, I suppose.
+exports.createBaby = function(user, next) {
+  // The user already has a public and private pair, and the
+  // user has already been saved to the database.
+  // Just create the baby contract.
+  // This _should_ be asynchronous, but not today.
+  var cmd = './block/contractScripts/createNewBabyContract '+user.public;
+  exec(cmd, function(error, stdout, stderr) {
+    next(error);
+  });
 };
 
-exports.createBabyParent = function(username, password, contactInfo) {
-  // Creates a public and private key
-  // The created "Baby" is a actually a mature adult, capable
-  // of holding a username and password.
-  // Adds the contactInfo to the Baby that is returned, also
+exports.createBabyParent = function(user) {
+  // ???
 };
 
 exports.addPermission = function(holder, receiver) {
