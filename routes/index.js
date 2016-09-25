@@ -84,9 +84,11 @@ router.post('/createparent', function(req, res) {
     if(req.body.password !== req.body.password2) {
         return res.render('createparent', { error : "Passwords don't match" });
     }
+    console.log('creating user, '+JSON.stringify(req.body));
     var user = _createUserFromBody(req.body);
     User.register(user, req.body.password, function(err, user) {
         if (err) {
+            console.log('error returned from user register: '+JSON.stringify(err));
             return res.render('createparent', { error : err.message, user: req.username });
         }
         res.redirect('/adminhome');
@@ -116,13 +118,28 @@ var _createUserFromBody = function(body) {
 }
 
 router.post('/createbaby', function(req, res) {
-    req.body.password = "1";
-    var user = _createUserFromBody(req.body);
+    req.body.password = "1";  // mongoose local won't let us create a user w/o password.
+    var user = _createUserFromBody(req.body); // This should be asynchronous.  Blow me.
     User.register(user, req.body.password, function(err, user) {
         if (err) {
             return res.render('createbaby', { error : err.message });
         }
-        res.redirect('/adminhome');
+        if (req.body.parent1 == null) {
+          return res.redirect('/adminhome');
+        } else {
+          // add a permission.  Holder is req.user.  Receiver has a username of req.body.parent1
+          userController.findUserByUsername(req.body.parent1, function(err, receiver) {
+            if (err) {
+              return res.render('createbaby', { error : err.message });
+            }
+            permissionController.create(req.user, receiver, function(err) {
+              if (err) {
+                return res.render('createbaby', { error: err.message });
+              }
+              return res.redirect('/adminhome');
+            })
+          });
+        }
     });
 });
 

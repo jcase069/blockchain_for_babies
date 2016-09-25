@@ -1,4 +1,5 @@
 db.users.remove({});
+db.permissions.remove({});
 
 db.users.insert(
   {
