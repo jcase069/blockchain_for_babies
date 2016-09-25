@@ -112,7 +112,20 @@ router.post('/createbaby', function(req, res) {
 });
 
 router.post('/grantaccesstoparent', function(req, res) {
-  var viewer_username = body.username;
+  // find the user with viewer_username
+  userController.findUserByUsername(body.username, function(err, receiver_user) {
+    if (err) {
+      return res.render('/home', {error : err.message});
+    } else {
+      permissionController.create(req.user, receiver_user, function(err) {
+        if (err) {
+          return res.render('/home', {error : err.message});
+        } else {
+          res.redirect('/home');  // Now the new permissions should be reflected.
+        }
+      });
+    }
+  });
 });
 
 router.get('/configure', function(req, res, next) {
